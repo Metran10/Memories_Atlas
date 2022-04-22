@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.memories_atlas.databinding.ActivityMainBinding
 
+// hello world!
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
