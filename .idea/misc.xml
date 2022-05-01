@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/grzet/Desktop/Programowanie aplikacji multimedialnych/Memories_Atlas/app/src/main/res/font/trajan.xml" value="0.1" />
-        <entry key="..\:/Users/grzet/Desktop/Programowanie aplikacji multimedialnych/Memories_Atlas/app/src/main/res/layout/activity_starter.xml" value="0.5" />
+        <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_maps.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_starter.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/create_pin.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>

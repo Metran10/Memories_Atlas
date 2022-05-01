@@ -19,8 +19,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="137dp"
+        android:layout_height="129dp"
         android:layout_margin="10dp"
         android:background="#00D10000"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
@@ -48,7 +48,8 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_bias="0.361" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -73,7 +74,7 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:alpha="1"
-            android:text="ADD PHOTO"
+            android:text="Settings"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +87,7 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:alpha="1"
-            android:text="Browse"
+            android:text="Memories"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
