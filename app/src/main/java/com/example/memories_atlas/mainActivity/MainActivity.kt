@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         // add new sets
         var addSetButton = findViewById<FloatingActionButton>(R.id.addSetButton)
         addSetButton.setOnClickListener {
-            TODO("Add empty set by notifing adapter")
+
+            getImageFromGallery()
         }
     }
 
@@ -73,58 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Get coordinates in form mutablelistof(latVal, latDir, longVal, longDir)
-    private fun getCoordOfImage(image_path: String): List<String>{
-        val lat = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE)
-        val isNorth = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE_REF)
 
-        val long = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE)
-        val isWest = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE_REF)
-
-        var coord = mutableListOf<String>()
-        if (lat != null) {
-            coord.add(lat)
-        }
-        else{
-            coord.add("")
-        }
-        if (isNorth != null) {
-            coord.add(isNorth)
-        }
-        else{
-            coord.add("")
-        }
-        if (long != null) {
-            coord.add(long)
-        }
-        else{
-            coord.add("")
-        }
-        if (isWest != null) {
-            coord.add(isWest)
-        }
-        else{
-            coord.add("")
-        }
-
-
-        return coord
-
-    }
-
-
-    //get value for in image meta-data
-    private fun getExifTagData(image_path: String,tag: String): String? {
-        val exif = ExifInterface(image_path)
-
-        val neededVal = exif.getAttribute(tag)
-        if (neededVal == null){
-            return ""
-        }
-        else {
-            return neededVal
-        }
-    }
 
 
     // generate fake data
