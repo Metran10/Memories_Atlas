@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/0klei/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_maps.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/activity_starter.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/create_new_map.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/create_pin.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/layout/list_of_sets_layout.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/0klei/StudioProjects/Memories_Atlas/app/src/main/res/menu/save_menu.xml" value="0.5541666666666667" />
       </map>
     </option>

@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         var addSetButton = findViewById<FloatingActionButton>(R.id.addSetButton)
         addSetButton.setOnClickListener {
 
-            sets.add(UserSet(enterNewMapName(), emptyList()))
+            TODO("Przekazać parametr z inputu")
+            sets.add(UserSet(enterNewMapName(), listOf(Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, emptyList()))))
         }
     }
 
@@ -199,6 +200,4 @@ class MainActivity : AppCompatActivity() {
 
         return titleToReturn
     }
-
-
 }

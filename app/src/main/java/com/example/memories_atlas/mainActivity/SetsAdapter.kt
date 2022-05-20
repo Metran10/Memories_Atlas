@@ -1,11 +1,16 @@
 package com.example.memories_atlas.mainActivity
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorSpace
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.memories_atlas.R
 import com.example.memories_atlas.models.UserSet
 
 // custom adapter for sets, looks ugly, but works for now
@@ -16,7 +21,7 @@ class SetsAdapter(val context: Context, val userSets: List<UserSet>, val onClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.list_of_sets_layout, parent, false)
         return ViewHolder(view)
     }
 
@@ -26,8 +31,18 @@ class SetsAdapter(val context: Context, val userSets: List<UserSet>, val onClick
         holder.itemView.setOnClickListener {
             onClickListener.onItemClick(position)
         }
-        val textViewTitle = holder.itemView.findViewById<TextView>(android.R.id.text1)
+
+        // ustawianie textu
+        val textViewTitle = holder.itemView.findViewById<TextView>(R.id.textt)
         textViewTitle.text = userSet.title
+
+        // ustawianie obrazka
+        if (userSet.places.size > 0 && !userSet.places.get(userSet.places.size-1).photos.isEmpty()) {
+            val photoView = holder.itemView.findViewById<ImageView>(R.id.photoo)
+            photoView.setImageURI(userSet.places.get(userSet.places.size-1).photos.get(0))
+        }
+
+
     }
 
     override fun getItemCount() = userSets.size
