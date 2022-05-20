@@ -1,9 +1,14 @@
 package com.example.memories_atlas.googleMapsActivities
 
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.memories_atlas.databinding.ActivityMapBinding
+import com.example.memories_atlas.models.Place
 import com.example.memories_atlas.models.UserSet
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
@@ -27,6 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapBinding
     private lateinit var userSet: UserSet
+    private var photos: MutableMap<Marker, List<Uri>> = mutableMapOf()
     private var markers: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +58,36 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 .setActionTextColor(ContextCompat.getColor(this, android.R.color.white))
                 .show()
         }
+    }
 
-        TODO("return modified list and save in adapter")
-        TODO("add database Room ")
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.save_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.miSave) {
+
+            if (markers.isEmpty()) {
+                Toast.makeText(this, "Enter at least 1 place", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            val places = markers.map{ marker -> Place(marker.title, marker.snippet, marker.position.longitude, marker.position.latitude,
+                photos[marker]!!
+            ) }
+            val userMap = UserSet(userSet.title, places)
+            val data = Intent()
+            data.putExtra(userSet.title, userMap)
+            data.putExtra("title", userSet.title)
+            setResult(Activity.RESULT_OK, data)
+            finish()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     /**
@@ -74,7 +108,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         for (mark in userSet.places) {
             val latLng = LatLng(mark.latitude, mark.longtitude)
             boundsBuilder.include(latLng)
-            markers.add(mMap.addMarker(MarkerOptions().position(latLng).title(mark.title).snippet(mark.description)))
+            var marker = mMap.addMarker(MarkerOptions().position(latLng).title(mark.title).snippet(mark.description))
+            markers.add(marker)
+            photos[marker] = mark.photos
         }
 
         // move the camera
@@ -119,6 +155,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             markers.add(mMap.addMarker(MarkerOptions().position(latLng).title(title).snippet(description)))
+            photos[markers[markers.size-1]] = emptyList()
             dialog.dismiss()
         }
     }
