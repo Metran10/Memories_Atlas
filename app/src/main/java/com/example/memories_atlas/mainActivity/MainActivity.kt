@@ -1,13 +1,11 @@
 package com.example.memories_atlas.mainActivity
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
@@ -18,8 +16,6 @@ import com.example.memories_atlas.R
 import com.example.memories_atlas.googleMapsActivities.MapActivity
 import com.example.memories_atlas.models.Place
 import com.example.memories_atlas.models.UserSet
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.*
 
@@ -60,6 +56,25 @@ class MainActivity : AppCompatActivity() {
             sets.add(UserSet(enterNewMapName(), emptyList()))
         }
     }
+
+    companion object{
+        var IMAGE_REQUEST_CODE = 100
+    }
+
+    private fun getImage(request_code: Int){
+        IMAGE_REQUEST_CODE = request_code
+        getImageFromGallery()
+    }
+
+    // opening gallery for image to choose, returns data in onActivityResult
+    private fun getImageFromGallery(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+
+    }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -184,4 +199,6 @@ class MainActivity : AppCompatActivity() {
 
         return titleToReturn
     }
+
+
 }

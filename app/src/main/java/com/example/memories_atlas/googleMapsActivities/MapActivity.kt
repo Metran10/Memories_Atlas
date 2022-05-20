@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import android.media.ExifInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,16 +15,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.memories_atlas.R
-
+import com.example.memories_atlas.databinding.ActivityMapBinding
+import com.example.memories_atlas.models.UserSet
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.example.memories_atlas.databinding.ActivityMapBinding
 import com.example.memories_atlas.models.Place
-import com.example.memories_atlas.models.UserSet
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
@@ -120,6 +120,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         // delete marker
         mMap.setOnInfoWindowClickListener {
             toDelete ->
+
             markers.remove(toDelete)
             toDelete.remove()
         }
@@ -130,6 +131,59 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             setParams(latLng)
         }
     }
+    //Get coordinates in form mutablelistof(latVal, latDir, longVal, longDir)
+    public fun getCoordOfImage(image_path: String): List<String>{
+        val lat = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE)
+        val isNorth = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE_REF)
+
+        val long = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE)
+        val isWest = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE_REF)
+
+        var coord = mutableListOf<String>()
+        if (lat != null) {
+            coord.add(lat)
+        }
+        else{
+            coord.add("")
+        }
+        if (isNorth != null) {
+            coord.add(isNorth)
+        }
+        else{
+            coord.add("")
+        }
+        if (long != null) {
+            coord.add(long)
+        }
+        else{
+            coord.add("")
+        }
+        if (isWest != null) {
+            coord.add(isWest)
+        }
+        else{
+            coord.add("")
+        }
+
+
+        return coord
+
+    }
+
+
+    //get value for in image meta-data
+    private fun getExifTagData(image_path: String,tag: String): String? {
+        val exif = ExifInterface(image_path)
+
+        val neededVal = exif.getAttribute(tag)
+        if (neededVal == null){
+            return ""
+        }
+        else {
+            return neededVal
+        }
+    }
+
 
     private fun setParams(latLng: LatLng) {
 
