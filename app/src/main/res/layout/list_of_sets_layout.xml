@@ -4,30 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myList"
     android:layout_width="match_parent"
-    android:background="#a77c48"
-    android:layout_height="320px">
+    android:layout_height="120dp"
+    android:background="@color/cyan_blue">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/photoo"
-        android:layout_width="300px"
-        android:layout_height="300px"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:shapeAppearanceOverlay="@style/roundedImageView"
+        app:srcCompat="@drawable/logo"
+        app:strokeColor="@color/gray"
+        app:strokeWidth="2dp" />
 
     <TextView
         android:id="@+id/textt"
-        android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_width="230dp"
+        android:layout_height="70dp"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/trajan"
+        android:gravity="center"
         android:text="TextView"
-        android:textSize="60px"
-        android:textStyle="italic"
         android:textColor="@color/black"
-        android:background="#a0522d"
-        app:layout_constraintBottom_toBottomOf="@+id/photoo"
+        android:textSize="18sp"
+
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/photoo"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

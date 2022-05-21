@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         // set layout manager to setsView
         var setsRecyclerView = findViewById<RecyclerView>(R.id.setsRecyclerView)
@@ -130,41 +133,43 @@ class MainActivity : AppCompatActivity() {
             UserSet(
                 "Memories from University",
                 listOf(
-                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, emptyList()),
-                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, emptyList()),
-                    Place("Pinkberry", "First date with my wife", 37.444, -122.170, emptyList())
+                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, mutableListOf(
+                        Uri.fromFile(File("src/main/res/drawable-v24/city01.jpg")), Uri.fromFile(File("src/main/res/drawable-v24/city02.jpg")))),
+                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, mutableListOf(
+                        Uri.fromFile(File("src/main/res/drawable-v24/city03.jpg")))),
+                    Place("Pinkberry", "First date with my wife", 37.444, -122.170, mutableListOf())
                 )
             ),
             UserSet("January vacation planning!",
                 listOf(
-                    Place("Tokyo", "Overnight layover", 35.67, 139.65, emptyList()),
-                    Place("Ranchi", "Family visit + wedding!", 23.34, 85.31, emptyList()),
-                    Place("Singapore", "Inspired by \"Crazy Rich Asians\"", 1.35, 103.82, emptyList())
+                    Place("Tokyo", "Overnight layover", 35.67, 139.65, mutableListOf()),
+                    Place("Ranchi", "Family visit + wedding!", 23.34, 85.31, mutableListOf()),
+                    Place("Singapore", "Inspired by \"Crazy Rich Asians\"", 1.35, 103.82, mutableListOf())
                 )),
             UserSet("Singapore travel itinerary",
                 listOf(
-                    Place("Gardens by the Bay", "Amazing urban nature park", 1.282, 103.864, emptyList()),
-                    Place("Jurong Bird Park", "Family-friendly park with many varieties of birds", 1.319, 103.706, emptyList()),
-                    Place("Sentosa", "Island resort with panoramic views", 1.249, 103.830, emptyList()),
-                    Place("Botanic Gardens", "One of the world's greatest tropical gardens", 1.3138, 103.8159, emptyList())
+                    Place("Gardens by the Bay", "Amazing urban nature park", 1.282, 103.864, mutableListOf()),
+                    Place("Jurong Bird Park", "Family-friendly park with many varieties of birds", 1.319, 103.706, mutableListOf()),
+                    Place("Sentosa", "Island resort with panoramic views", 1.249, 103.830, mutableListOf()),
+                    Place("Botanic Gardens", "One of the world's greatest tropical gardens", 1.3138, 103.8159, mutableListOf())
                 )
             ),
             UserSet("My favorite places in the Midwest",
                 listOf(
-                    Place("Chicago", "Urban center of the midwest, the \"Windy City\"", 41.878, -87.630, emptyList()),
-                    Place("Rochester, Michigan", "The best of Detroit suburbia", 42.681, -83.134, emptyList()),
-                    Place("Mackinaw City", "The entrance into the Upper Peninsula", 45.777, -84.727, emptyList()),
-                    Place("Michigan State University", "Home to the Spartans", 42.701, -84.482, emptyList()),
-                    Place("University of Michigan", "Home to the Wolverines", 42.278, -83.738, emptyList())
+                    Place("Chicago", "Urban center of the midwest, the \"Windy City\"", 41.878, -87.630, mutableListOf()),
+                    Place("Rochester, Michigan", "The best of Detroit suburbia", 42.681, -83.134, mutableListOf()),
+                    Place("Mackinaw City", "The entrance into the Upper Peninsula", 45.777, -84.727, mutableListOf()),
+                    Place("Michigan State University", "Home to the Spartans", 42.701, -84.482, mutableListOf()),
+                    Place("University of Michigan", "Home to the Wolverines", 42.278, -83.738, mutableListOf())
                 )
             ),
             UserSet("Restaurants to try",
                 listOf(
-                    Place("Champ's Diner", "Retro diner in Brooklyn", 40.709, -73.941, emptyList()),
-                    Place("Althea", "Chicago upscale dining with an amazing view", 41.895, -87.625, emptyList()),
-                    Place("Shizen", "Elegant sushi in San Francisco", 37.768, -122.422, emptyList()),
-                    Place("Citizen Eatery", "Bright cafe in Austin with a pink rabbit", 30.322, -97.739, emptyList()),
-                    Place("Kati Thai", "Authentic Portland Thai food, served with love", 45.505, -122.635, emptyList())
+                    Place("Champ's Diner", "Retro diner in Brooklyn", 40.709, -73.941, mutableListOf()),
+                    Place("Althea", "Chicago upscale dining with an amazing view", 41.895, -87.625, mutableListOf()),
+                    Place("Shizen", "Elegant sushi in San Francisco", 37.768, -122.422, mutableListOf()),
+                    Place("Citizen Eatery", "Bright cafe in Austin with a pink rabbit", 30.322, -97.739, mutableListOf()),
+                    Place("Kati Thai", "Authentic Portland Thai food, served with love", 45.505, -122.635, mutableListOf())
                 )
             )
         )

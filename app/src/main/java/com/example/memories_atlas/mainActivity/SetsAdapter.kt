@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorSpace
 import android.net.Uri
+import android.os.Debug
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +41,9 @@ class SetsAdapter(val context: Context, val userSets: List<UserSet>, val onClick
         // ustawianie obrazka
         if (userSet.places.size > 0 && !userSet.places.get(userSet.places.size-1).photos.isEmpty()) {
             val photoView = holder.itemView.findViewById<ImageView>(R.id.photoo)
-            photoView.setImageURI(userSet.places.get(userSet.places.size-1).photos.get(0))
+            photoView.setImageURI(userSet.places[userSet.places.size-1].photos[0])
+
+
         }
 
 
