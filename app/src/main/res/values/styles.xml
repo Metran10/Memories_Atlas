@@ -5,5 +5,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="roundedCornersImage">
+
+        <item name="cornerSize">25%</item>
+    </style>
+
 
 </resources>
