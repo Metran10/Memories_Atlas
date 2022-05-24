@@ -94,21 +94,26 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == RETURN_EDIT_SET_CODE && resultCode == Activity.RESULT_OK) {
 
+            var numLat = 0.0
+            var numLong = 0.0
+
             var name = data?.getStringExtra("name")
-            if (name == null) name = "Default"
+            if (name == null || name == "") name = "Default"
             var place = data?.getStringExtra("place")
-            if (place == null) place = "Default"
+            if (place == null || place == "") place = "Default"
             var description = data?.getStringExtra("description")
-            if (description == null) description = "Default"
-            var lat = data?.getDoubleExtra("lat", 0.0)
-            if (lat == null) lat = 0.0
-            var long = data?.getDoubleExtra("long", 0.0)
-            if (long == null) long = 0.0
+            if (description == null || description == "") description = "Default"
+            var lat = data?.getStringExtra("lat")
+            if (lat == null) numLat = 0.0
+            else numLat = lat.toDouble()
+            var long = data?.getStringExtra("long")
+            if (long == null) numLong = 0.0
+            else numLong = long.toDouble()
 
             val newSet = UserSet(
                 name,
                 mutableListOf(
-                    Place(place, description, lat, long, mutableListOf())
+                    Place(place, description, numLat, numLong, mutableListOf())
                 )
             )
 
