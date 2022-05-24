@@ -1,14 +1,10 @@
 package com.example.memories_atlas.mainActivity
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.ColorSpace
-import android.net.Uri
-import android.os.Debug
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +15,10 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
 
     interface OnClickListener {
         fun onItemClick(position: Int)
+        fun onLongClick(position: Int)
+        fun onButtonClick(position: Int)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_of_sets_layout, parent, false)
@@ -31,6 +30,13 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
         // trigger function passed in constructor
         holder.itemView.setOnClickListener {
             onClickListener.onItemClick(position)
+        }
+        holder.itemView.setOnLongClickListener {
+            onClickListener.onLongClick(position)
+            return@setOnLongClickListener true
+        }
+        holder.itemView.findViewById<Button>(R.id.buttonik).setOnClickListener {
+            onClickListener.onButtonClick(position)
         }
 
         // ustawianie textu

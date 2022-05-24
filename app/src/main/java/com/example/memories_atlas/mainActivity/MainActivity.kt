@@ -21,7 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.*
 
 private const val RETURN_MAP_ACTIVITY_CODE = 1
-private const val RETURN_EDIT_SET_CODE = 2
+private const val RETURN_NEW_SET_CODE = 2
+private const val RETURN_EDIT_SET_CODE = 3
 private const val FILENAME = "UserData.data"
 
 class MainActivity : AppCompatActivity() {
@@ -42,15 +43,28 @@ class MainActivity : AppCompatActivity() {
         sets = deserializeUserMaps(this).toMutableList()
 
         // set adapter
-        setAdapter = SetsAdapter(this, sets, object: SetsAdapter.OnClickListener {
-            override fun onItemClick(position: Int) {
+        setAdapter = SetsAdapter(this, sets,
+            object: SetsAdapter.OnClickListener {
+                override fun onItemClick(position: Int) {
 
-                // open maps with  list of marks of selected set
-                var intent = Intent(this@MainActivity, MapActivity::class.java)
-                intent.putExtra(R.string.selected_map_set.toString(), sets[position])
-                startActivityForResult(intent, RETURN_MAP_ACTIVITY_CODE)
+                    // open maps with  list of marks of selected set
+                    var intent = Intent(this@MainActivity, MapActivity::class.java)
+                    intent.putExtra(R.string.selected_map_set.toString(), sets[position])
+                    startActivityForResult(intent, RETURN_MAP_ACTIVITY_CODE)
+                }
+                override fun onLongClick(position: Int) {
+                    sets.removeAt(position)
+                    setAdapter.notifyDataSetChanged()
+                }
+                override fun onButtonClick(position: Int) {
+                    var intent = Intent(this@MainActivity, EditSetActivity::class.java)
+                    intent.putExtra(R.string.selected_map_set.toString(), sets[position])
+                    intent.putExtra("index", position)
+                    startActivityForResult(intent, RETURN_EDIT_SET_CODE)
+                }
+
             }
-        })
+        )
         setsRecyclerView.adapter = setAdapter
 
         // add new sets
@@ -58,7 +72,8 @@ class MainActivity : AppCompatActivity() {
         addSetButton.setOnClickListener {
 
             var intent = Intent(this@MainActivity, EditSetActivity::class.java)
-            startActivityForResult(intent, RETURN_EDIT_SET_CODE)
+            intent.putExtra("index", -1)
+            startActivityForResult(intent, RETURN_NEW_SET_CODE)
         }
     }
 
@@ -88,11 +103,10 @@ class MainActivity : AppCompatActivity() {
             print(newSet)
             sets.remove(sets.find { set -> set.title == title })
             sets.add(newSet)
-            setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
 
-        if (requestCode == RETURN_EDIT_SET_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RETURN_NEW_SET_CODE && resultCode == Activity.RESULT_OK) {
 
             var numLat = 0.0
             var numLong = 0.0
@@ -104,10 +118,10 @@ class MainActivity : AppCompatActivity() {
             var description = data?.getStringExtra("description")
             if (description == null || description == "") description = "Default"
             var lat = data?.getStringExtra("lat")
-            if (lat == null) numLat = 0.0
+            if (lat == null || lat == "") numLat = 0.0
             else numLat = lat.toDouble()
             var long = data?.getStringExtra("long")
-            if (long == null) numLong = 0.0
+            if (long == null || long == "") numLong = 0.0
             else numLong = long.toDouble()
 
             val newSet = UserSet(
@@ -118,9 +132,21 @@ class MainActivity : AppCompatActivity() {
             )
 
             sets.add(newSet)
-            setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
+
+        if (requestCode == RETURN_EDIT_SET_CODE && resultCode == Activity.RESULT_OK) {
+
+            var name = data?.getStringExtra("name")
+            if (name == null || name == "") name = "Default"
+            val index = data?.getStringExtra("index")
+
+            if (index != null) {
+                sets[index.toInt()].title = name
+            }
+        }
+
+        setAdapter.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
 
