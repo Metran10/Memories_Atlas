@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity() {
 
             val title = data?.getStringExtra("title")
             val newSet = data?.getSerializableExtra(title) as UserSet
-            print(newSet)
             sets.remove(sets.find { set -> set.title == title })
             sets.add(newSet)
             //serializeUserMaps(this, sets)
@@ -110,6 +109,9 @@ class MainActivity : AppCompatActivity() {
 
             var numLat = 0.0
             var numLong = 0.0
+
+            val uriString = data?.getStringExtra("uri")
+            val uri = Uri.parse(uriString)
 
             var name = data?.getStringExtra("name")
             if (name == null || name == "") name = "Default"
@@ -131,6 +133,11 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
+            if (uri != null) {
+                newSet.places[0].photos.add(uri)
+                Toast.makeText(this, "dodano uri", Toast.LENGTH_LONG).show()
+            }
+
             sets.add(newSet)
             //serializeUserMaps(this, sets)
         }
@@ -143,6 +150,7 @@ class MainActivity : AppCompatActivity() {
 
             if (index != null) {
                 sets[index.toInt()].title = name
+
             }
         }
 
