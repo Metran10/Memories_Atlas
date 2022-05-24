@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.models.UserSet
 
-// custom adapter for sets, looks ugly, but works for now
-class SetsAdapter(val context: Context, val userSets: List<UserSet>, val onClickListener: OnClickListener) : RecyclerView.Adapter<SetsAdapter.ViewHolder>() {
+class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val onClickListener: OnClickListener) : RecyclerView.Adapter<SetsAdapter.ViewHolder>() {
 
     interface OnClickListener {
         fun onItemClick(position: Int)
@@ -42,11 +41,7 @@ class SetsAdapter(val context: Context, val userSets: List<UserSet>, val onClick
         if (userSet.places.size > 0 && !userSet.places.get(userSet.places.size-1).photos.isEmpty()) {
             val photoView = holder.itemView.findViewById<ImageView>(R.id.photoo)
             photoView.setImageURI(userSet.places[userSet.places.size-1].photos[0])
-
-
         }
-
-
     }
 
     override fun getItemCount() = userSets.size

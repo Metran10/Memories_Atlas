@@ -33,7 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapBinding
     private lateinit var userSet: UserSet
-    private var photos: MutableMap<Marker, List<Uri>> = mutableMapOf()
+    private var photos: MutableMap<Marker, MutableList<Uri>> = mutableMapOf()
     private var markers: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +78,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val places = markers.map{ marker -> Place(marker.title, marker.snippet, marker.position.longitude, marker.position.latitude,
                 photos[marker]!!
-            ) }
+            ) } as MutableList
             val userMap = UserSet(userSet.title, places)
             val data = Intent()
             data.putExtra(userSet.title, userMap)
@@ -164,10 +164,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         else{
             coord.add("")
         }
-
-
         return coord
-
     }
 
 
@@ -209,7 +206,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             markers.add(mMap.addMarker(MarkerOptions().position(latLng).title(title).snippet(description)))
-            photos[markers[markers.size-1]] = emptyList()
+            photos[markers[markers.size-1]] = mutableListOf()
             dialog.dismiss()
         }
     }
