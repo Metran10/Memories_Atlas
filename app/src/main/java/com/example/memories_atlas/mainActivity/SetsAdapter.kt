@@ -1,6 +1,7 @@
 package com.example.memories_atlas.mainActivity
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
         // ustawianie obrazka
         if (userSet.places.size > 0 && !userSet.places.get(userSet.places.size-1).photos.isEmpty()) {
             val photoView = holder.itemView.findViewById<ImageView>(R.id.photoo)
-            photoView.setImageURI(userSet.places[userSet.places.size-1].photos[0])
+            photoView.setImageURI(Uri.parse(userSet.places[userSet.places.size-1].photos[0]))
         }
     }
 

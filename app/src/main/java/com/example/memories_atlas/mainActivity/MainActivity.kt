@@ -111,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             var numLong = 0.0
 
             val uriString = data?.getStringExtra("uri")
-            val uri = Uri.parse(uriString)
 
             var name = data?.getStringExtra("name")
             if (name == null || name == "") name = "Default"
@@ -133,9 +132,8 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
-            if (uri != null) {
-                newSet.places[0].photos.add(uri)
-                Toast.makeText(this, "dodano uri", Toast.LENGTH_LONG).show()
+            if (uriString != null && uriString != "") {
+                newSet.places[0].photos.add(uriString)
             }
 
             sets.add(newSet)
@@ -197,10 +195,8 @@ class MainActivity : AppCompatActivity() {
             UserSet(
                 "Memories from University",
                 mutableListOf(
-                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, mutableListOf(
-                        Uri.fromFile(File("src/main/res/drawable-v24/city01.jpg")), Uri.fromFile(File("src/main/res/drawable-v24/city02.jpg")))),
-                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, mutableListOf(
-                        Uri.fromFile(File("src/main/res/drawable-v24/city03.jpg")))),
+                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, mutableListOf()),
+                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, mutableListOf()),
                     Place("Pinkberry", "First date with my wife", 37.444, -122.170, mutableListOf())
                 )
             ),
