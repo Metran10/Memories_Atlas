@@ -84,7 +84,7 @@
 
 
             <View
-                android:id="@+id/break_line2"
+                android:id="@+id/top_pannel"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
@@ -180,7 +180,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/break_line2" />
+                app:layout_constraintTop_toBottomOf="@+id/top_pannel" />
 
             <EditText
                 android:id="@+id/lat_edit"
@@ -209,7 +209,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/set_coord_title"
-                app:layout_constraintTop_toBottomOf="@+id/break_line2" />
+                app:layout_constraintTop_toBottomOf="@+id/top_pannel" />
 
             <Button
                 android:id="@+id/set_confirm_changes"
