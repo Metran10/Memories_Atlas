@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Memories_Atlas">
         <activity
+            android:name=".googleMapsActivities.MapShowDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainActivity.EditSetActivity"
             android:exported="false" />
 

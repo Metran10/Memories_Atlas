@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.media.ExifInterface
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -27,14 +28,16 @@ import com.example.memories_atlas.models.Place
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import java.util.ArrayList
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapBinding
     private lateinit var userSet: UserSet
-    private var photos: MutableMap<Marker, MutableList<String>> = mutableMapOf()
+    private var photos: MutableMap<String, MutableList<String>> = mutableMapOf()
     private var markers: MutableList<Marker> = mutableListOf()
+    private var RETURN_CODE = 15
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +80,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             val places = markers.map{ marker -> Place(marker.title, marker.snippet, marker.position.longitude, marker.position.latitude,
-                photos[marker]!!
+                photos[marker.title]!!
             ) } as MutableList
             val userMap = UserSet(userSet.title, places)
             val data = Intent()
@@ -104,23 +107,32 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var boundsBuilder = LatLngBounds.builder()
 
-        // add passed markers
+        // add passed places
         for (mark in userSet.places) {
             val latLng = LatLng(mark.latitude, mark.longtitude)
             boundsBuilder.include(latLng)
             var marker = mMap.addMarker(MarkerOptions().position(latLng).title(mark.title).snippet(mark.description))
             markers.add(marker)
-            photos[marker] = mark.photos
+            photos[mark.title] = mark.photos
         }
 
         // move the camera
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 1000, 1000, 0))
 
-        //------------------------------------------------------------------------------------------
         // delete marker
         mMap.setOnInfoWindowClickListener {
-            toDelete ->
+            selectedMarker ->
+            var intent = Intent(this, MapShowDetailsActivity::class.java)
+            var photosOfPlace = photos[selectedMarker.title]
 
+            intent.putExtra("title", selectedMarker.title)
+            intent.putExtra("description", selectedMarker.snippet)
+            intent.putStringArrayListExtra("photos", ArrayList(photosOfPlace))
+            startActivityForResult(intent, RETURN_CODE)
+        }
+
+        mMap.setOnInfoWindowLongClickListener {
+            toDelete ->
             markers.remove(toDelete)
             toDelete.remove()
         }
@@ -131,56 +143,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             setParams(latLng)
         }
     }
-    //Get coordinates in form mutablelistof(latVal, latDir, longVal, longDir)
-    public fun getCoordOfImage(image_path: String): List<String>{
-        val lat = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE)
-        val isNorth = getExifTagData(image_path, ExifInterface.TAG_GPS_LATITUDE_REF)
 
-        val long = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE)
-        val isWest = getExifTagData(image_path, ExifInterface.TAG_GPS_LONGITUDE_REF)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        var coord = mutableListOf<String>()
-        if (lat != null) {
-            coord.add(lat)
+        if (resultCode == Activity.RESULT_OK) {
+
+            val title = data?.getStringExtra("title").toString()
+            val pics = data?.getStringArrayListExtra("photos") as MutableList<String>
+
+            photos[title] = pics
         }
-        else{
-            coord.add("")
-        }
-        if (isNorth != null) {
-            coord.add(isNorth)
-        }
-        else{
-            coord.add("")
-        }
-        if (long != null) {
-            coord.add(long)
-        }
-        else{
-            coord.add("")
-        }
-        if (isWest != null) {
-            coord.add(isWest)
-        }
-        else{
-            coord.add("")
-        }
-        return coord
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
-
-
-    //get value for in image meta-data
-    private fun getExifTagData(image_path: String,tag: String): String? {
-        val exif = ExifInterface(image_path)
-
-        val neededVal = exif.getAttribute(tag)
-        if (neededVal == null){
-            return ""
-        }
-        else {
-            return neededVal
-        }
-    }
-
 
     private fun setParams(latLng: LatLng) {
 
@@ -206,7 +181,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             markers.add(mMap.addMarker(MarkerOptions().position(latLng).title(title).snippet(description)))
-            photos[markers[markers.size-1]] = mutableListOf()
+            photos[markers[markers.size-1].title] = mutableListOf()
             dialog.dismiss()
         }
     }

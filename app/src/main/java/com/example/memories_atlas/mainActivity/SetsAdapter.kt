@@ -45,9 +45,16 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
         textViewTitle.text = userSet.title
 
         // ustawianie obrazka
-        if (userSet.places.size > 0 && !userSet.places.get(userSet.places.size-1).photos.isEmpty()) {
+        if (userSet.places.size > 0) {
             val photoView = holder.itemView.findViewById<ImageView>(R.id.photoo)
-            photoView.setImageURI(Uri.parse(userSet.places[userSet.places.size-1].photos[0]))
+
+            for (place in userSet.places) {
+
+                if (!place.photos.isEmpty()){
+
+                    photoView.setImageURI(Uri.parse(place.photos[0]))
+                }
+            }
         }
     }
 

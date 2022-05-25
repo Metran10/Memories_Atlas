@@ -77,24 +77,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    companion object{
-//        var IMAGE_CODE = 100
-//    }
-//
-//    private fun getImage(request_code: Int){
-//        this@Companion.IMAGE_CODE = request_code
-//        getImageFromGallery()
-//    }
-//
-//    // opening gallery for image to choose, returns data in onActivityResult
-//    private fun getImageFromGallery(){
-//        val intent = Intent(Intent.ACTION_PICK)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, this@Companion.IMAGE_CODE)
-//    }
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RETURN_MAP_ACTIVITY_CODE && resultCode == Activity.RESULT_OK) {
 
