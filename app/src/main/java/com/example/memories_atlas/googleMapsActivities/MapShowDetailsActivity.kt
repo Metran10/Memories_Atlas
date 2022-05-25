@@ -46,21 +46,19 @@ class MapShowDetailsActivity : AppCompatActivity() {
         val save = findViewById<Button>(R.id.save)
 
 
-        // #########################################################################################
-        // #########################################################################################
         val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         customAdapter = MapGalleryAdapter(this, photos)
         recyclerView.adapter = customAdapter
-        // #########################################################################################
-        // #########################################################################################
 
         addFromGalery.setOnClickListener {
             getImageFromGallery()
+            customAdapter.notifyDataSetChanged()
         }
 
         addFromCamera.setOnClickListener {
             takePhoto()
+            customAdapter.notifyDataSetChanged()
         }
 
         save.setOnClickListener {

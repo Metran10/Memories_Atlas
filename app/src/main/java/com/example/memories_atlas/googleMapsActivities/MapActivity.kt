@@ -79,9 +79,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return true
             }
 
-            val places = markers.map{ marker -> Place(marker.title, marker.snippet, marker.position.longitude, marker.position.latitude,
-                photos[marker.title]!!
-            ) } as MutableList
+            val places = mutableListOf<Place>()
+            for (marker in markers) {
+                places.add(Place(marker.title, marker.snippet, marker.position.latitude, marker.position.longitude,
+                    photos[marker.title]!!))
+            }
+
             val userMap = UserSet(userSet.title, places)
             val data = Intent()
             data.putExtra(userSet.title, userMap)
@@ -92,6 +95,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun printMarkers() {
+
+        var str = ""
+        for (marker in markers) {
+            str += marker.title + " " + marker.snippet + " " + marker.position.longitude + " " + marker.position.latitude + "\n"
+        }
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show()
+    }
+
+    private fun printPlaces(places: MutableList<Place>) {
+
+        var str = ""
+        for (place in places) {
+            str += place.title + " " + place.description + " " + place.longtitude + " " + place.latitude + "\n"
+        }
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show()
+    }
+
+
 
     /**
      * Manipulates the map once available.

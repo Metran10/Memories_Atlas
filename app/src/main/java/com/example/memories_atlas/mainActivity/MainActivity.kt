@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             val title = data?.getStringExtra("title")
             val newSet = data?.getSerializableExtra(title) as UserSet
             sets.remove(sets.find { set -> set.title == title })
-            sets.add(newSet)
+            sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 newSet.places[0].photos.add(uriString)
             }
 
-            sets.add(newSet)
+            sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             setAdapter.notifyDataSetChanged()
         }
 
-        printAll()
+        // printAll()
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -177,6 +177,8 @@ class MainActivity : AppCompatActivity() {
         }
         Toast.makeText(this, str, Toast.LENGTH_LONG).show()
     }
+
+
 
     // generate fake data
     private fun generateSampleData(): MutableList<UserSet> {
