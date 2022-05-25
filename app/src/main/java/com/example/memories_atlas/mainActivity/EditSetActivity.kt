@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,8 @@ class EditSetActivity : AppCompatActivity() {
     private var IMAGE_CAPATURE_CODE = 1001
     var image_uri: Uri? = null
     private lateinit var add_button: Button
+    private lateinit var lat: EditText
+    private lateinit var long: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,8 @@ class EditSetActivity : AppCompatActivity() {
         val name = findViewById<EditText>(R.id.setName)
         val place = findViewById<EditText>(R.id.placeName)
         val description = findViewById<EditText>(R.id.description)
-        val lat = findViewById<EditText>(R.id.lat_edit)
-        val long = findViewById<EditText>(R.id.long_edit)
+        lat = findViewById<EditText>(R.id.lat_edit)
+        long = findViewById<EditText>(R.id.long_edit)
         val button = findViewById<Button>(R.id.set_confirm_changes)
         add_button = findViewById(R.id.add_button)
 
@@ -135,9 +138,8 @@ class EditSetActivity : AppCompatActivity() {
         val task = fusedLocationProvider.lastLocation
         task.addOnSuccessListener {
             if (it != null) {
-                Toast.makeText(this, "Your current location is: \n" +
-                        "Long: " + it.longitude + " \n" +
-                        "Lat: " + it.latitude, Toast.LENGTH_LONG).show()
+                lat.setText(it.latitude.toString())
+                long.setText(it.longitude.toString())
             }
         }
     }
