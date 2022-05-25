@@ -48,7 +48,7 @@ class MapShowDetailsActivity : AppCompatActivity() {
 
 
         val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
-        recyclerView.layoutManager = GridLayoutManager(this, photos.size)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.setHasFixedSize(true)
         customAdapter = MapGalleryAdapter(this, photos)
         recyclerView.adapter = customAdapter
