@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.models.Place
@@ -40,7 +41,6 @@ class MapShowDetailsActivity : AppCompatActivity() {
         name.text = passedName
         val description = findViewById<TextView>(R.id.description123)
         description.text = passedDescription
-        val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
         val addFromGalery = findViewById<Button>(R.id.add_from_galery)
         val addFromCamera = findViewById<Button>(R.id.add_from_camera)
         val save = findViewById<Button>(R.id.save)
@@ -48,6 +48,8 @@ class MapShowDetailsActivity : AppCompatActivity() {
 
         // #########################################################################################
         // #########################################################################################
+        val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
         customAdapter = MapGalleryAdapter(this, photos)
         recyclerView.adapter = customAdapter
         // #########################################################################################

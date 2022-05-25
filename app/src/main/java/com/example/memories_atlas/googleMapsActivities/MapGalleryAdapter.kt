@@ -29,7 +29,9 @@ class MapGalleryAdapter(val context: Context, val photos: MutableList<String>) :
         imageView.setImageURI(Uri.parse(photo))
     }
 
-    override fun getItemCount() = photos.size
+    override fun getItemCount(): Int {
+        return photos.size
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
