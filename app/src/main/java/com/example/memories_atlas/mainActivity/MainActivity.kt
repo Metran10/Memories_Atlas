@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra(R.string.selected_map_set.toString(), sets[position])
                     startActivityForResult(intent, RETURN_MAP_ACTIVITY_CODE)
                 }
-                override fun onLongClick(position: Int) {
+                override fun deleteClick(position: Int) {
                     sets.removeAt(position)
                     setAdapter.notifyDataSetChanged()
                 }
-                override fun onButtonClick(position: Int) {
+                override fun editClick(position: Int) {
                     var intent = Intent(this@MainActivity, EditSetActivity::class.java)
                     intent.putExtra(R.string.selected_map_set.toString(), sets[position])
                     intent.putExtra("index", position)
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             sets.remove(sets.find { set -> set.title == title })
             sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
-            //serializeUserMaps(this, sets)
+            serializeUserMaps(this, sets)
         }
 
         if (requestCode == RETURN_NEW_SET_CODE && resultCode == Activity.RESULT_OK) {
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
             sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
-            //serializeUserMaps(this, sets)
+            serializeUserMaps(this, sets)
         }
 
         if (requestCode == RETURN_EDIT_SET_CODE && resultCode == Activity.RESULT_OK) {
@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             setAdapter.notifyDataSetChanged()
+            serializeUserMaps(this, sets)
         }
 
         // printAll()

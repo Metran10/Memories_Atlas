@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
@@ -18,8 +17,8 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
 
     interface OnClickListener {
         fun onItemClick(position: Int)
-        fun onLongClick(position: Int)
-        fun onButtonClick(position: Int)
+        fun deleteClick(position: Int)
+        fun editClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,12 +32,11 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
         holder.itemView.setOnClickListener {
             onClickListener.onItemClick(position)
         }
-        holder.itemView.setOnLongClickListener {
-            onClickListener.onLongClick(position)
-            return@setOnLongClickListener true
+        holder.itemView.findViewById<Button>(R.id.buttonikDelete).setOnClickListener {
+            onClickListener.deleteClick(position)
         }
         holder.itemView.findViewById<Button>(R.id.buttonik).setOnClickListener {
-            onClickListener.onButtonClick(position)
+            onClickListener.editClick(position)
         }
 
         // ustawianie textu

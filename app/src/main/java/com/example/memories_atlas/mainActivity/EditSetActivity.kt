@@ -38,8 +38,8 @@ class EditSetActivity : AppCompatActivity() {
         val name = findViewById<EditText>(R.id.setName)
         val place = findViewById<EditText>(R.id.placeName)
         val description = findViewById<EditText>(R.id.description)
-        lat = findViewById<EditText>(R.id.lat_edit)
-        long = findViewById<EditText>(R.id.long_edit)
+        lat = findViewById(R.id.lat_edit)
+        long = findViewById(R.id.long_edit)
         val button = findViewById<Button>(R.id.set_confirm_changes)
         add_button = findViewById(R.id.add_button)
 

@@ -14,7 +14,11 @@ import com.example.memories_atlas.R
 import com.example.memories_atlas.mainActivity.SetsAdapter
 import com.example.memories_atlas.models.UserSet
 
-class MapGalleryAdapter(val context: Context, val photos: MutableList<String>) : RecyclerView.Adapter<MapGalleryAdapter.ViewHolder>() {
+class MapGalleryAdapter(val context: Context, val photos: MutableList<String>, val onClickListener: OnLongClickListener) : RecyclerView.Adapter<MapGalleryAdapter.ViewHolder>() {
+
+    interface OnLongClickListener {
+        fun onLongItemClick(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.map_gallery_image, parent, false)
@@ -23,6 +27,10 @@ class MapGalleryAdapter(val context: Context, val photos: MutableList<String>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo = photos[position]
+
+        holder.itemView.setOnClickListener {
+            onClickListener.onLongItemClick(position)
+        }
 
         // ustawianie zdjecia
         val imageView = holder.itemView.findViewById<ImageView>(R.id.imageView333)

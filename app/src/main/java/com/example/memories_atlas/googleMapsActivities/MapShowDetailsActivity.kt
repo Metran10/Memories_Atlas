@@ -9,16 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
-import com.example.memories_atlas.models.Place
-import com.example.memories_atlas.models.UserSet
 import java.util.ArrayList
 
 class MapShowDetailsActivity : AppCompatActivity() {
@@ -50,7 +45,14 @@ class MapShowDetailsActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.setHasFixedSize(true)
-        customAdapter = MapGalleryAdapter(this, photos)
+        customAdapter = MapGalleryAdapter(this, photos,
+            object: MapGalleryAdapter.OnLongClickListener {
+                override fun onLongItemClick(position: Int) {
+                    photos.removeAt(position)
+                    customAdapter.notifyDataSetChanged()
+                }
+            }
+        )
         recyclerView.adapter = customAdapter
 
         addFromGalery.setOnClickListener {
