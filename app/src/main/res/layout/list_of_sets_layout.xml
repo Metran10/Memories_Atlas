@@ -46,17 +46,18 @@
         android:layout_height="wrap_content"
         android:text="Edit Set"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.883"
+        app:layout_constraintHorizontal_bias="0.693"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textt" />
 
     <Button
         android:id="@+id/buttonikDelete"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Delete"
+
+        android:layout_marginStart="20dp"
+        android:background="@drawable/delete_icon"
         app:layout_constraintBottom_toBottomOf="@+id/buttonik"
-        app:layout_constraintEnd_toStartOf="@+id/buttonik" />
+        app:layout_constraintStart_toEndOf="@+id/buttonik" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

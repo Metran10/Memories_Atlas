@@ -28,8 +28,9 @@ class MapGalleryAdapter(val context: Context, val photos: MutableList<String>, v
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo = photos[position]
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnLongClickListener {
             onClickListener.onLongItemClick(position)
+            return@setOnLongClickListener true
         }
 
         // ustawianie zdjecia
