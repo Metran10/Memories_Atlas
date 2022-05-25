@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.models.UserSet
@@ -53,8 +54,10 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
                 if (!place.photos.isEmpty() && place.photos[0] != "") {
 
                     photoView.setImageURI(Uri.parse(place.photos[0]))
+                    return
                 }
             }
+            photoView.setImageDrawable(getDrawable(context, R.drawable.logo))
         }
     }
 
