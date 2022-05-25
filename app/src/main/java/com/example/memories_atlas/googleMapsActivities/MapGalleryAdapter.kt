@@ -5,36 +5,31 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.mainActivity.SetsAdapter
 import com.example.memories_atlas.models.UserSet
 
-class MapGalleryAdapter(): RecyclerView.Adapter<GalleryViewHolder>() {
+class MapGalleryAdapter(val context: Context, val photos: MutableList<String>) : RecyclerView.Adapter<MapGalleryAdapter.ViewHolder>() {
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val galleryImage = layoutInflater.inflate(R.layout.map_gallery_image, parent, false)
-
-        return GalleryViewHolder(galleryImage)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.map_gallery_image, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-        val image_view: ImageView = holder.itemView.findViewById(R.id.map_gallery_photo)
-        //image_view.setImageURI(Uri.parse())
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val photo = photos[position]
 
+        // ustawianie zdjecia
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.imageView333)
+        imageView.setImageURI(Uri.parse(photo))
     }
 
-    override fun getItemCount(): Int {
-        return 3
-    }
+    override fun getItemCount() = photos.size
 
-}
-
-
-class GalleryViewHolder(val view: View): RecyclerView.ViewHolder(view){
-
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

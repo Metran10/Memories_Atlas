@@ -3,18 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_gallery_background"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
     android:background="@color/cyan_blue">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/map_gallery_photo"
+        android:id="@+id/imageView333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedCornersImage"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/beach01" />
 </androidx.constraintlayout.widget.ConstraintLayout>

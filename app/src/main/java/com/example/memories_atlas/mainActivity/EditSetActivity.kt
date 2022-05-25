@@ -40,7 +40,6 @@ class EditSetActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.set_confirm_changes)
         add_button = findViewById(R.id.add_button)
 
-
         val userSet = intent.getSerializableExtra(R.string.selected_map_set.toString()) as UserSet?
         val index = intent.getSerializableExtra("index") as Int
 
