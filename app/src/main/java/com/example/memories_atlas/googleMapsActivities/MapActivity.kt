@@ -33,7 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapBinding
     private lateinit var userSet: UserSet
-    private var photos: MutableMap<Marker, MutableList<Uri>> = mutableMapOf()
+    private var photos: MutableMap<Marker, MutableList<String>> = mutableMapOf()
     private var markers: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {

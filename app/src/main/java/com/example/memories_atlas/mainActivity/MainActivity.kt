@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity() {
 
             val title = data?.getStringExtra("title")
             val newSet = data?.getSerializableExtra(title) as UserSet
-            print(newSet)
             sets.remove(sets.find { set -> set.title == title })
             sets.add(newSet)
             //serializeUserMaps(this, sets)
@@ -110,6 +109,8 @@ class MainActivity : AppCompatActivity() {
 
             var numLat = 0.0
             var numLong = 0.0
+
+            val uriString = data?.getStringExtra("uri")
 
             var name = data?.getStringExtra("name")
             if (name == null || name == "") name = "Default"
@@ -131,6 +132,10 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
+            if (uriString != null && uriString != "") {
+                newSet.places[0].photos.add(uriString)
+            }
+
             sets.add(newSet)
             //serializeUserMaps(this, sets)
         }
@@ -143,6 +148,7 @@ class MainActivity : AppCompatActivity() {
 
             if (index != null) {
                 sets[index.toInt()].title = name
+
             }
         }
 
@@ -189,10 +195,8 @@ class MainActivity : AppCompatActivity() {
             UserSet(
                 "Memories from University",
                 mutableListOf(
-                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, mutableListOf(
-                        Uri.fromFile(File("src/main/res/drawable-v24/city01.jpg")), Uri.fromFile(File("src/main/res/drawable-v24/city02.jpg")))),
-                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, mutableListOf(
-                        Uri.fromFile(File("src/main/res/drawable-v24/city03.jpg")))),
+                    Place("Branner Hall", "Best dorm at Stanford", 37.426, -122.163, mutableListOf()),
+                    Place("Gates CS building", "Many long nights in this basement", 37.430, -122.173, mutableListOf()),
                     Place("Pinkberry", "First date with my wife", 37.444, -122.170, mutableListOf())
                 )
             ),
