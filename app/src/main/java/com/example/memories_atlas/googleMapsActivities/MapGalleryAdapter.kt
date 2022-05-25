@@ -22,9 +22,9 @@ class MapGalleryAdapter(): RecyclerView.Adapter<GalleryViewHolder>() {
         return GalleryViewHolder(galleryImage)
     }
 
-    override fun onBindViewHolder(holder: SetsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
         val image_view: ImageView = holder.itemView.findViewById(R.id.map_gallery_photo)
-        image_view.setImageURI(Uri.parse())
+        //image_view.setImageURI(Uri.parse())
 
     }
 
