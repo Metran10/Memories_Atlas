@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.models.UserSet
@@ -19,7 +20,6 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
         fun onLongClick(position: Int)
         fun onButtonClick(position: Int)
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_of_sets_layout, parent, false)
@@ -50,7 +50,7 @@ class SetsAdapter(val context: Context, val userSets: MutableList<UserSet>, val 
 
             for (place in userSet.places) {
 
-                if (!place.photos.isEmpty()){
+                if (!place.photos.isEmpty() && place.photos[0] != "") {
 
                     photoView.setImageURI(Uri.parse(place.photos[0]))
                 }

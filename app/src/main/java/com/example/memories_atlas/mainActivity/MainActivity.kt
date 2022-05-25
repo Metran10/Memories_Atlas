@@ -1,5 +1,6 @@
 package com.example.memories_atlas.mainActivity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RETURN_MAP_ACTIVITY_CODE && resultCode == Activity.RESULT_OK) {
 
@@ -83,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             val newSet = data?.getSerializableExtra(title) as UserSet
             sets.remove(sets.find { set -> set.title == title })
             sets.add(newSet)
+            setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
 
@@ -113,11 +116,12 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
-            if (uriString != null && uriString != "") {
+            if (uriString != null && uriString != "" && uriString != "null") {
                 newSet.places[0].photos.add(uriString)
             }
 
             sets.add(newSet)
+            setAdapter.notifyDataSetChanged()
             //serializeUserMaps(this, sets)
         }
 
@@ -131,9 +135,10 @@ class MainActivity : AppCompatActivity() {
                 sets[index.toInt()].title = name
 
             }
+            setAdapter.notifyDataSetChanged()
         }
 
-        setAdapter.notifyDataSetChanged()
+        printAll()
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -158,16 +163,19 @@ class MainActivity : AppCompatActivity() {
         ObjectInputStream(FileInputStream(dataFile)).use { return it.readObject() as MutableList<UserSet> }
     }
 
-    private fun print(set: UserSet ) {
+    private fun printAll() {
+        var str = ""
+        for (set in sets) {
+            for (element in set.places) {
 
-        var str = set.title
-
-        for (element in set.places) {
-
-            str += " " + element.title + " " + element.longtitude + " " + element.latitude
+                str += " " + element.title + " " + element.longtitude + " " + element.latitude + "\n"
+                for (photo in element.photos) {
+                    str += " " + photo + "\n"
+                }
+            }
+            str += "\n\n"
         }
         Toast.makeText(this, str, Toast.LENGTH_LONG).show()
-
     }
 
     // generate fake data
@@ -214,36 +222,5 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         )
-    }
-
-    private fun enterNewMapName(): String {
-
-        var titleToReturn = ""
-
-        // box to fill data
-        var newMapForm = LayoutInflater.from(this).inflate(R.layout.create_new_map, null)
-
-
-        // alert window
-        var dialog = AlertDialog
-            .Builder(this)
-            .setTitle("Describe memory!")
-            .setView(newMapForm)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Add", null)
-            .show()
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val title = newMapForm.findViewById<EditText>(R.id.newTitle).text.toString()
-            if (title.trim().isEmpty()) {
-                Toast.makeText(this, "Enter new map name!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            titleToReturn = title
-            dialog.dismiss()
-        }
-
-        return titleToReturn
     }
 }
