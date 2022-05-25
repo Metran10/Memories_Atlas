@@ -16,5 +16,14 @@
         map:layout_constraintTop_toTopOf="parent"
         tools:context=".googleMapsActivities.MapActivity" />
 
+    <fragment
+        android:id="@+id/map_gallery_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:name="com.example.memories_atlas.googleMapsActivities.GalleryFragment"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
