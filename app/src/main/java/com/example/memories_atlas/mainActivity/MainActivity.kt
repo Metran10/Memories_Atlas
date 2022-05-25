@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("index", position)
                     startActivityForResult(intent, RETURN_EDIT_SET_CODE)
                 }
-
             }
         )
         setsRecyclerView.adapter = setAdapter
