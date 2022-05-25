@@ -9,24 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
-import com.example.memories_atlas.models.Place
-import com.example.memories_atlas.models.UserSet
 import java.util.ArrayList
 
 class MapShowDetailsActivity : AppCompatActivity() {
 
     private val PERMISSION_CODE = 1002
     private val IMAGE_CAPATURE_CODE = 555
-    private val IMAGE_FROM_GALERY_CODE = 999
     private var takenPhoto: Uri? = null
     private lateinit var photos: MutableList<String>
-    private lateinit var customAdapter: MapGalleryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +35,19 @@ class MapShowDetailsActivity : AppCompatActivity() {
         name.text = passedName
         val description = findViewById<TextView>(R.id.description123)
         description.text = passedDescription
-        val recyclerView = findViewById<RecyclerView>(R.id.rec_view)
         val addFromGalery = findViewById<Button>(R.id.add_from_galery)
         val addFromCamera = findViewById<Button>(R.id.add_from_camera)
         val save = findViewById<Button>(R.id.save)
 
-        customAdapter = MapGalleryAdapter(this, photos)
-        recyclerView.adapter = customAdapter
+
+        //recycler view config
+        val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        //recyclerView.adapter =
+
 
         addFromGalery.setOnClickListener {
-            getImageFromGallery()
+
         }
 
         addFromCamera.setOnClickListener {
@@ -64,12 +62,6 @@ class MapShowDetailsActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, data)
             finish()
         }
-    }
-
-    private fun getImageFromGallery(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_FROM_GALERY_CODE)
     }
 
     private fun takePhoto() {
@@ -101,18 +93,11 @@ class MapShowDetailsActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPATURE_CODE) {
+        if (resultCode == Activity.RESULT_OK) {
 
             photos.add(takenPhoto.toString())
         }
 
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_FROM_GALERY_CODE) {
-
-            var imageUri = data?.data
-            photos.add(imageUri.toString())
-        }
-
-        customAdapter.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
 }
