@@ -70,28 +70,15 @@
             />
 
         <Button
-            android:id="@+id/add_photo_button"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:alpha="1"
-            android:text="Add New"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/browse_button"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
+            android:layout_width="166dp"
+            android:layout_height="70dp"
             android:alpha="1"
             android:text="Browse"
-            android:textSize="12sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
