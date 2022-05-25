@@ -11,11 +11,7 @@ import com.example.memories_atlas.R
 import com.example.memories_atlas.mainActivity.SetsAdapter
 import com.example.memories_atlas.models.UserSet
 
-class MapGalleryAdapter(val context: Context, val photos: MutableList<String>, val onClickListener: SetsAdapter.OnClickListener): RecyclerView.Adapter<SetsAdapter.ViewHolder>() {
-
-    interface OnClickListener {
-        fun onItemClick(position: Int)
-    }
+class MapGalleryAdapter(val context: Context, val photos: MutableList<String>): RecyclerView.Adapter<SetsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetsAdapter.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.map_gallery_image, parent, false)

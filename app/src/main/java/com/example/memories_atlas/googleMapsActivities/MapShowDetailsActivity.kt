@@ -23,8 +23,10 @@ class MapShowDetailsActivity : AppCompatActivity() {
 
     private val PERMISSION_CODE = 1002
     private val IMAGE_CAPATURE_CODE = 555
+    private val IMAGE_FROM_GALERY_CODE = 999
     private var takenPhoto: Uri? = null
     private lateinit var photos: MutableList<String>
+    private lateinit var customAdapter: MapGalleryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +45,11 @@ class MapShowDetailsActivity : AppCompatActivity() {
         val addFromCamera = findViewById<Button>(R.id.add_from_camera)
         val save = findViewById<Button>(R.id.save)
 
-        addFromGalery.setOnClickListener {
+        customAdapter = MapGalleryAdapter(this, photos)
+        recyclerView.adapter = customAdapter
 
+        addFromGalery.setOnClickListener {
+            getImageFromGallery()
         }
 
         addFromCamera.setOnClickListener {
@@ -59,6 +64,12 @@ class MapShowDetailsActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, data)
             finish()
         }
+    }
+
+    private fun getImageFromGallery(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_FROM_GALERY_CODE)
     }
 
     private fun takePhoto() {
@@ -90,11 +101,18 @@ class MapShowDetailsActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPATURE_CODE) {
 
             photos.add(takenPhoto.toString())
         }
 
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_FROM_GALERY_CODE) {
+
+            var imageUri = data?.data
+            photos.add(imageUri.toString())
+        }
+
+        customAdapter.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
 }
