@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.models.Place
@@ -49,7 +50,8 @@ class MapShowDetailsActivity : AppCompatActivity() {
         // #########################################################################################
         // #########################################################################################
         val recyclerView = findViewById<RecyclerView>(R.id.rec_view_gallery)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
         customAdapter = MapGalleryAdapter(this, photos)
         recyclerView.adapter = customAdapter
         // #########################################################################################
