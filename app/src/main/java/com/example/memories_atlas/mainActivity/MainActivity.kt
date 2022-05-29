@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memories_atlas.R
 import com.example.memories_atlas.googleMapsActivities.MapActivity
+import com.example.memories_atlas.models.MemoriesDatabase
 import com.example.memories_atlas.models.Place
 import com.example.memories_atlas.models.UserSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sets: MutableList<UserSet>
     private lateinit var setAdapter: SetsAdapter
+
+    //setting dao to access db
+    val dao = MemoriesDatabase.getInstance(this).setDao
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
