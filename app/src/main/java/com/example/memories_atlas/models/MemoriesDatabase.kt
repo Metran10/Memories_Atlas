@@ -5,21 +5,49 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-
 @Database(
     entities = [
-        UserSet::class,
-        Place::class,
-        PhotoData::class
+        SerializedData::class
     ],
     version = 1
 )
 abstract class MemoriesDatabase : RoomDatabase() {
 
-    abstract val setDao: SetsDAO
+
+    abstract fun setDAO(): SetsDAO
 
 
     companion object {
+        @Volatile
+        private var INSTANCE: MemoriesDatabase? = null
+
+        fun getDatabase(context: Context): MemoriesDatabase {
+            val tempInstance = INSTANCE
+
+            if (tempInstance != null)
+            {
+                return tempInstance
+            }
+            synchronized(this){
+                val instance = Room.databaseBuilder(
+                    context,
+                    MemoriesDatabase::class.java,
+                    "memories_db"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
+
+        }
+
+    }
+
+
+
+    /*
+    abstract val setsDAO: SetsDAO
+
+    companion object{
         @Volatile
         private var INSTANCE: MemoriesDatabase? = null
 
@@ -29,13 +57,12 @@ abstract class MemoriesDatabase : RoomDatabase() {
                     context.applicationContext,
                     MemoriesDatabase::class.java,
                     "memories_db"
-                ).build().also {
-                    INSTANCE = it
-                }
+                ).build().also { INSTANCE = it }
             }
         }
 
     }
+    */
 
 
 }
