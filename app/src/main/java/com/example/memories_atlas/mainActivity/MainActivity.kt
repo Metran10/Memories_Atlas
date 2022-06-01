@@ -183,10 +183,11 @@ class MainActivity : AppCompatActivity() {
         Log.d("DAO", "deserialising")
         var startingSets = dao.getAllSets()
 
-        Log.d("DAO", startingSets.value?.size.toString())
-        Log.d("DAO", startingSets.value.toString())
+        Log.d("DAO", startingSets.size.toString())
+        Log.d("DAO", startingSets.toString())
 
-        if (startingSets.value == null){
+
+        if (startingSets.size == 0){
             insertStartData(dao)
         }
 
@@ -203,13 +204,17 @@ class MainActivity : AppCompatActivity() {
         startingSets = dao.getAllSets()
         var result = mutableListOf<UserSet>()
 
-        startingSets.value?.forEach { result.add(deserializeSET(it)) }
-
+        startingSets.forEach { result.add(deserializeSET(it)) }
+        Log.d("DAO", "Number of startingsets " + startingSets.size.toString())
+        Log.d("DAO", "Number of loaded elems " + result.size.toString())
         return result
     }
 
     private fun serializeSET(userSet: UserSet): SerializedData {
-        val json = Json.encodeToString(userSet)
+        val dbSet = toUserSetDB(userSet)
+
+
+        val json = Json.encodeToString(dbSet)
 
         val res = SerializedData(json)
 
@@ -217,13 +222,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deserializeSET(serializedData: SerializedData): UserSet {
-        val res = Json.decodeFromString<UserSet>(serializedData.serializedString)
-        return res
+        val res = Json.decodeFromString<UserSetDB>(serializedData.serializedString)
+
+        val usSet = toUserSet(res)
+
+        return usSet
     }
 
     private fun insertStartData(dao: SetsDAO){
         Log.d("DAO", "inserting starting data")
         val testData = generateSampleData()
+
+
+        //val testData2 = mutableListOf<UserSetDB>()
+
+
+
+        //testData.forEach { testData2.add(toUserSetDB(it)) }
+
+        //###########################################
 
         lifecycleScope.launch {
             testData.forEach { dao.insertSetData(serializeSET(it)) }

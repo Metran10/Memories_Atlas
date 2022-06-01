@@ -19,11 +19,11 @@ interface SetsDAO {
 
     @Transaction
     @Query("SELECT * FROM sets")
-    fun getAllSets(): LiveData<List<SerializedData>>
+    fun getAllSets(): List<SerializedData>
 
     @Transaction
     @Query("SELECT * FROM sets WHERE serializedString = :serializedString")
-    fun getOneSets(serializedString: String): LiveData<List<SerializedData>>
+    fun getOneSets(serializedString: String): List<SerializedData>
 
 
 }

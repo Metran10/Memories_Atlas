@@ -33,7 +33,7 @@ abstract class MemoriesDatabase : RoomDatabase() {
                     context,
                     MemoriesDatabase::class.java,
                     "memories_db"
-                ).build()
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }
