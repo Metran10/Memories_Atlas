@@ -10,6 +10,9 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
@@ -56,6 +59,25 @@ class EspressoTestScenario1 {
             sleep(1500)
             pressBack()
         }
+    }
+
+    @Test
+    fun googleMap() {
+        ActivityScenario.launch(StarterActivity::class.java)
+
+        onView(withId(R.id.browse_button)).perform(click())
+
+        onView(withId(R.id.setsRecyclerView)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+
+        val device = UiDevice.getInstance(getInstrumentation())
+        val marker = device.findObject( UiSelector().descriptionContains("Default"))
+        marker.clickAndWaitForNewWindow()
+        sleep(1500)
     }
 
     @Test
