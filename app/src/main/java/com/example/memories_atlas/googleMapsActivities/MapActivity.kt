@@ -170,7 +170,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if (resultCode == Activity.RESULT_OK) {
-
+            //here its gathering ####################################################################################
             val title = data?.getStringExtra("title").toString()
             val pics = data?.getStringArrayListExtra("photos") as MutableList<String>
 

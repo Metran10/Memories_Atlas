@@ -8,18 +8,25 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.memories_atlas.R
 import com.example.memories_atlas.googleMapsActivities.MapActivity
-import com.example.memories_atlas.models.Place
-import com.example.memories_atlas.models.UserSet
+import com.example.memories_atlas.models.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import java.io.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 private const val RETURN_MAP_ACTIVITY_CODE = 1
 private const val RETURN_NEW_SET_CODE = 2
@@ -30,10 +37,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sets: MutableList<UserSet>
     private lateinit var setAdapter: SetsAdapter
+    private lateinit var dao: SetsDAO
+
+//    val db = Room.databaseBuilder(
+//        applicationContext,
+//        MemoriesDatabase::class.java,
+//        "memories_db"
+//    ).build()
+
+    //val dao = db.setDAO()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        dao = MemoriesDatabase.getDatabase(this).setDAO()
 
 
         // set layout manager to setsView
@@ -41,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         setsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // set adapter to setsView, put fake data (implementation below), pass onClick function
-        sets = deserializeUserMaps(this).toMutableList()
+        sets = deserializeUserMaps(this, dao).toMutableList()
 
         // set adapter
         setAdapter = SetsAdapter(this, sets,
@@ -86,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             sets.remove(sets.find { set -> set.title == title })
             sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
-            serializeUserMaps(this, sets)
+            serializeUserMaps(this, sets, dao)
         }
 
         if (requestCode == RETURN_NEW_SET_CODE && resultCode == Activity.RESULT_OK) {
@@ -122,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
             sets.add(0, newSet)
             setAdapter.notifyDataSetChanged()
-            serializeUserMaps(this, sets)
+            serializeUserMaps(this, sets, dao)
         }
 
         if (requestCode == RETURN_EDIT_SET_CODE && resultCode == Activity.RESULT_OK) {
@@ -136,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             setAdapter.notifyDataSetChanged()
-            serializeUserMaps(this, sets)
+            serializeUserMaps(this, sets, dao)
         }
 
         // printAll()
@@ -147,14 +167,31 @@ class MainActivity : AppCompatActivity() {
 
         return File(context.filesDir, FILENAME)
     }
+    /////
+    private fun serializeUserMaps(context: Context, userSets: MutableList<UserSet>, dao: SetsDAO) {
+        Log.d("DAO", "serializing")
+        //ObjectOutputStream(FileOutputStream(getDataFile(context))).use { it.writeObject(userSets) }
 
-    private fun serializeUserMaps(context: Context, userSets: MutableList<UserSet>) {
+        //saving to db
+        userSets.forEach { dao.insertSetData(serializeSET(it)) }
 
-        ObjectOutputStream(FileOutputStream(getDataFile(context))).use { it.writeObject(userSets) }
+
+
     }
+    //////
+    private fun deserializeUserMaps(context: Context, dao: SetsDAO) : MutableList<UserSet> {
+        Log.d("DAO", "deserialising")
+        var startingSets = dao.getAllSets()
 
-    private fun deserializeUserMaps(context: Context) : MutableList<UserSet> {
+        Log.d("DAO", startingSets.size.toString())
+        Log.d("DAO", startingSets.toString())
 
+
+        if (startingSets.size == 0){
+            insertStartData(dao)
+        }
+
+        /*
         val dataFile = getDataFile(context)
         if (!dataFile.exists()) {
 
@@ -162,7 +199,57 @@ class MainActivity : AppCompatActivity() {
         }
 
         ObjectInputStream(FileInputStream(dataFile)).use { return it.readObject() as MutableList<UserSet> }
+
+         */
+        startingSets = dao.getAllSets()
+        var result = mutableListOf<UserSet>()
+
+        startingSets.forEach { result.add(deserializeSET(it)) }
+        Log.d("DAO", "Number of startingsets " + startingSets.size.toString())
+        Log.d("DAO", "Number of loaded elems " + result.size.toString())
+        return result
     }
+
+    private fun serializeSET(userSet: UserSet): SerializedData {
+        val dbSet = toUserSetDB(userSet)
+
+
+        val json = Json.encodeToString(dbSet)
+
+        val res = SerializedData(json)
+
+        return res
+    }
+
+    private fun deserializeSET(serializedData: SerializedData): UserSet {
+        val res = Json.decodeFromString<UserSetDB>(serializedData.serializedString)
+
+        val usSet = toUserSet(res)
+
+        return usSet
+    }
+
+    private fun insertStartData(dao: SetsDAO){
+        Log.d("DAO", "inserting starting data")
+        val testData = generateSampleData()
+
+
+        //val testData2 = mutableListOf<UserSetDB>()
+
+
+
+        //testData.forEach { testData2.add(toUserSetDB(it)) }
+
+        //###########################################
+
+        lifecycleScope.launch {
+            testData.forEach { dao.insertSetData(serializeSET(it)) }
+
+        }
+
+    }
+
+
 
     private fun printAll() {
         var str = ""
