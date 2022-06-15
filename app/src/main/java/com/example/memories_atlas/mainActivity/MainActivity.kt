@@ -173,6 +173,8 @@ class MainActivity : AppCompatActivity() {
         //ObjectOutputStream(FileOutputStream(getDataFile(context))).use { it.writeObject(userSets) }
 
         //saving to db
+        dao.deleteAll()
+
         userSets.forEach { dao.insertSetData(serializeSET(it)) }
 
 
@@ -209,8 +211,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("DAO", "Number of loaded elems " + result.size.toString())
         return result
     }
-
-    private fun serializeSET(userSet: UserSet): SerializedData {
+    /*
+    public fun serializeSET(userSet: UserSet): SerializedData {
         val dbSet = toUserSetDB(userSet)
 
 
@@ -221,23 +223,20 @@ class MainActivity : AppCompatActivity() {
         return res
     }
 
-    private fun deserializeSET(serializedData: SerializedData): UserSet {
+    public fun deserializeSET(serializedData: SerializedData): UserSet {
         val res = Json.decodeFromString<UserSetDB>(serializedData.serializedString)
 
         val usSet = toUserSet(res)
 
         return usSet
     }
-
+    */
     private fun insertStartData(dao: SetsDAO){
         Log.d("DAO", "inserting starting data")
         val testData = generateSampleData()
 
 
         //val testData2 = mutableListOf<UserSetDB>()
-
-
-
         //testData.forEach { testData2.add(toUserSetDB(it)) }
 
         //###########################################
@@ -313,4 +312,23 @@ class MainActivity : AppCompatActivity() {
             )
         )
     }
+}
+
+public fun serializeSET(userSet: UserSet): SerializedData {
+    val dbSet = toUserSetDB(userSet)
+
+
+    val json = Json.encodeToString(dbSet)
+
+    val res = SerializedData(json)
+
+    return res
+}
+
+public fun deserializeSET(serializedData: SerializedData): UserSet {
+    val res = Json.decodeFromString<UserSetDB>(serializedData.serializedString)
+
+    val usSet = toUserSet(res)
+
+    return usSet
 }

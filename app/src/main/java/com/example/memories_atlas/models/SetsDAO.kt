@@ -16,6 +16,9 @@ interface SetsDAO {
     @Update
     fun updateSetData(serializedData: SerializedData)
 
+    @Transaction
+    @Query("DELETE FROM sets")
+    fun deleteAll()
 
     @Transaction
     @Query("SELECT * FROM sets")
